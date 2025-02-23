@@ -3,8 +3,13 @@ pkgs.mkShell rec {
   allowUnfree = true;
 
   buildInputs = with pkgs; [
+    zsh
     bashInteractive
     nodejs
     nodePackages.pnpm
   ];
+
+  shellHook = ''
+    exec zsh
+  '';
 }
