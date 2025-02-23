@@ -1,13 +1,3 @@
 func main {
-    asd
-
-
-
-
-    asd
-
-
-
-
-    asd
+    hello from nicole
 }
