@@ -1,17 +1,11 @@
 package handlers
+
 import (
 	"encoding/json" // ecnode/deconde, sending/recieving JSON data
 	"fmt"
 	"net/http" // handling HTTP requests and responses
+	"ieee-planner/backend/api/models"
 )
-
-type Course struct {
-	Department string `json:"department"`
-	ID	int `json:"id"` // `: how filed is represented in JSON object
-	Name string `json:"name"`
-	Description string `json:"description"`
-	Prerequisites []string `json:"prerequisites"`
-}
 
 // w: write response back to client
 // r: incoming HTTP request

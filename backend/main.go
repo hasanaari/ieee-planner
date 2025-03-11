@@ -7,11 +7,8 @@ import (
     "io/ioutil"
     "log"
     "net/http"
-    // "ieee-planner/backend/handlers"
+	"ieee-planner/backend/api/handlers"
 )
-
-// test api (need to change)
-const openAIAPIKey = "***REMOVED***"
 
 // Based on IEEE #2
 type Response struct{
@@ -30,6 +27,12 @@ type OpenAIRequest struct{
 }
 
 func main(){
+
+	// testing handlers
+	http.HandleFunc("/api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler
+    http.HandleFunc("/api/schedules", handlers.SchedulesHandler)
+    fmt.Println("Server starting on :8080...")
+    log.Fatal(http.ListenAndServe(":8080", nil)) // error will stop program
 
     prompt := `task: Find out how to get course information for CS101`
     
@@ -102,14 +105,3 @@ func sendRequestToOpenAI(request OpenAIRequest) (*Response, error) {
 
 	return &openAIResponse, nil
 }
-
-// func handler(w http.ResponseWriter, r *http.Request) {
-//     fmt.Fprintf(w, "Hello, World!")
-// }
-
-// func main() {
-//     http.HandleFunc("/api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler
-//     http.HandleFunc("/api/schedules", handlers.SchedulesHandler)
-//     fmt.Println("Server starting on :8080...")
-//     log.Fatal(http.ListenAndServe(":8080", nil)) // error will stop program
-// }
