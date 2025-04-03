@@ -4,7 +4,6 @@ import (
 	"fmt"
     "log"
     "net/http"
-    "os"
 	
 	"github.com/joho/godotenv" // package for loading .env
 	"github.com/nynniaw12/ieee-planner/backend/api/handlers"
@@ -19,7 +18,7 @@ func main(){
 	// testing handlers
 	http.HandleFunc("/api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler
     http.HandleFunc("/api/schedules", handlers.SchedulesHandler)
-	http.HandleFunc("/api/generate", GenerateHandler) // openAI
+	// http.HandleFunc("/api/generate", GenerateHandler) // openAI
 
 
     fmt.Println("Server starting on :8080...")
