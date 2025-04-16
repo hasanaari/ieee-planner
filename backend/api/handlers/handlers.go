@@ -11,6 +11,8 @@ import (
 	"github.com/nynniaw12/ieee-planner/backend/api/models"
 )
 
+// look for colon
+
 // Prompt template
 var prompt_template = `task: Find out how to parse course listings to see what courses are available.
 

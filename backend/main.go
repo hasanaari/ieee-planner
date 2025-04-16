@@ -1,4 +1,4 @@
-package main
+/* package main
 
 import (
 	"fmt"
@@ -25,4 +25,26 @@ func main(){
     fmt.Println("Server starting on :8080...")
     log.Fatal(http.ListenAndServe(":8080", nil)) // error will stop program
 
+} */
+
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/nynniaw12/ieee-planner/backend/scraper"
+	// other imports, such as your handlers for other routes
+)
+
+func main() {
+	// Register your course handler for testing purposes.
+	http.HandleFunc("/test-courses", scraper.CourseHandler)
+
+	// If you already have other routes, you can keep them here as well.
+	// http.HandleFunc("/api/courses", yourExistingCoursesHandler)
+
+	fmt.Println("Server starting on :8080...")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
