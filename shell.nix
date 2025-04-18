@@ -8,8 +8,4 @@ pkgs.mkShell rec {
     nodejs
     nodePackages.pnpm
   ];
-
-  shellHook = ''
-    exec zsh
-  '';
 }
