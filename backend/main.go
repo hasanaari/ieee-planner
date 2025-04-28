@@ -6,12 +6,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/nynniaw12/ieee-planner/api/handlers"
 	"github.com/nynniaw12/ieee-planner/db"
-	"github.com/nynniaw12/ieee-planner/handlers"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/joho/godotenv" // package for loading .env
-	"github.com/nynniaw12/ieee-planner/api/handlers"
 	"github.com/nynniaw12/ieee-planner/scraper"
 
 	_ "github.com/lib/pq"
@@ -20,6 +19,12 @@ import (
 func main() {
 	database := db.ConnectToDB()
 	defer database.Close()
+
+	err := db.CreateCoursesTable(database)
+
+	if err != nil {
+		log.Fatal("Creating course table failed", err)
+	}
 
 	wd, err := os.Getwd()
 	if err != nil {
