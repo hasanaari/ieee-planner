@@ -6,13 +6,21 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/nynniaw12/ieee-planner/db"
+	"github.com/nynniaw12/ieee-planner/handlers"
+
 	"github.com/gocolly/colly/v2"
 	"github.com/joho/godotenv" // package for loading .env
 	"github.com/nynniaw12/ieee-planner/api/handlers"
 	"github.com/nynniaw12/ieee-planner/scraper"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
+	database := db.ConnectToDB()
+	defer database.Close()
+
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Error getting working directory: %v", err)
@@ -41,7 +49,17 @@ func main() {
 	http.HandleFunc("/api/schedules", handlers.SchedulesHandler)
 	http.HandleFunc("/api/generate", handlers.GenerateHandler) // openAI
 
+	// Add http paths to handlers
+	http.HandleFunc("/add-course", handlers.AddCourseHandler(database))
+	http.HandleFunc("/edit-course", handlers.EditCourseHandler(database))
+	http.HandleFunc("/remove-course", handlers.RemoveCourseHandler(database))
+	http.HandleFunc("/clear-courses", handlers.ClearCoursesHandler(database))
+	http.HandleFunc("/get-course", handlers.GetCourseHandler(database))
+	http.HandleFunc("/get-courses", handlers.GetCoursesHandler(database))
+	
 	fmt.Println("Server starting on :8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil)) // error will stop program
 
 }
+
+
