@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/nynniaw12/ieee-planner/api/models"
 )
@@ -15,6 +16,8 @@ func AddCourseHandler(db *sql.DB) http.HandlerFunc{
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
+
+		id := r.PathValue("id")
 		
 		decoder := json.NewDecoder(r.Body)
 
@@ -26,6 +29,15 @@ func AddCourseHandler(db *sql.DB) http.HandlerFunc{
 			http.Error(w, "Valid course not entered", http.StatusBadRequest)
 			return
 		}
+
+		courseID, err := strconv.Atoi(id)
+		
+		if err != nil {
+			http.Error(w, "Invalid ID entered", http.StatusBadRequest)
+			return
+		}
+
+		course.ID = courseID
 
 		err = models.AddCourse(db, course)
 
@@ -46,6 +58,8 @@ func EditCourseHandler(db *sql.DB) http.HandlerFunc{
 			return
 		}
 
+		id := r.PathValue("id")
+
 		decoder := json.NewDecoder(r.Body)
 
 		var course models.Course
@@ -56,6 +70,14 @@ func EditCourseHandler(db *sql.DB) http.HandlerFunc{
 			http.Error(w, "Valid course not entered", http.StatusBadRequest)
 			return
 		}
+
+		courseID, err := strconv.Atoi(id)
+		if err != nil {
+			http.Error(w, "Invalid ID entered", http.StatusBadRequest)
+			return
+		}
+
+		course.ID = courseID 
 
 		err = models.EditCourse(db, course)
 
@@ -75,18 +97,17 @@ func RemoveCourseHandler(db *sql.DB) http.HandlerFunc{
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		decoder := json.NewDecoder(r.Body)
 
-		var id int
+		id := r.PathValue("id")
 
-		err := decoder.Decode(&id)
+		courseID, err := strconv.Atoi(id)
 
 		if err != nil {
-			http.Error(w, "Not valid id", http.StatusBadRequest)
+			http.Error(w, "Invalid ID entered", http.StatusBadRequest)
 			return
 		}
 
-		err = models.RemoveCourse(db, id)
+		err = models.RemoveCourse(db, courseID)
 
 		if err != nil {
 			http.Error(w, "Remove course failed", http.StatusInternalServerError)
@@ -123,18 +144,16 @@ func GetCourseHandler(db *sql.DB) http.HandlerFunc{
 			return
 		}
 
-		var id int
+		id := r.PathValue("id")
 
-		decoder := json.NewDecoder(r.Body)
-
-		err := decoder.Decode(&id) 
+		courseID, err := strconv.Atoi(id)
 
 		if err != nil {
-			http.Error(w, "Valid course not entered", http.StatusBadRequest)
+			http.Error(w, "Invalid ID entered", http.StatusBadRequest)
 			return
 		}
 
-		course, err := models.GetCourse(db, id)
+		course, err := models.GetCourse(db, courseID)
 
 		if err != nil {
 			http.Error(w, "Get course failed", http.StatusInternalServerError)
