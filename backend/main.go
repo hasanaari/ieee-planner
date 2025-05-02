@@ -17,10 +17,17 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Println("Error loading .env file", err)
+	}
+
+
 	database := db.ConnectToDB()
 	defer database.Close()
 
-	err := db.CreateCoursesTable(database)
+	err = db.CreateCoursesTable(database)
 
 	if err != nil {
 		log.Fatal("Creating course table failed", err)
@@ -31,11 +38,6 @@ func main() {
 		log.Fatalf("Error getting working directory: %v", err)
 	}
 	fmt.Printf("Working directory: %s\n", wd)
-
-	err = godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
 
 	// Instrument Colly to log every URL it visits:
 	scraper.SetLogger(func(r *colly.Request) {
