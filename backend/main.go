@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/nynniaw12/ieee-planner/api/handlers"
+	"github.com/nynniaw12/ieee-planner/cache"
 	"github.com/nynniaw12/ieee-planner/db"
 
 	"github.com/gocolly/colly/v2"
@@ -67,8 +68,21 @@ func main() {
 	mux.HandleFunc("GET /api/courses/{id}", handlers.GetCourseHandler(database))
 	mux.HandleFunc("GET /api/courses", handlers.GetCoursesHandler(database))
 	
+	if !cache.IsCacheValid(database, "courses"){
+		log.Println("Invalid cached courses, rescraping...")
+		scraper.CachedCourses, scraper.ScrapeError = scraper.ScrapeCourses("4980")
+		if scraper.ScrapeError != nil {
+			log.Fatalf("Rescraping failed: %v", scraper.ScrapeError)
+		}
+		log.Printf("Rescraping complete: %d courses loaded\n", len(scraper.CachedCourses))
+	}
+
+	if !cache.IsCacheValid(database, "MajorRequirements"){
+		// For when scraping major requirements is done
+	}
+
 	fmt.Println("Server starting on :8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil)) // error will stop program
+	log.Fatal(http.ListenAndServe(":8080", mux)) // error will stop program
 
 }
 
