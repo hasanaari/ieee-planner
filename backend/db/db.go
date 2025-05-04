@@ -36,6 +36,8 @@ func ConnectToDB() *sql.DB {
 	return db
 }
 
+// FIXME: CREATE TABLE IF NOT EXISTS instead of DROP
+
 // CreateCoursesTable drops the table if it exists and creates it fresh
 func CreateCoursesTable(db *sql.DB) error {
 	// Drop if exists (optional safety)
