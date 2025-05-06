@@ -7,5 +7,6 @@ pkgs.mkShell rec {
     bashInteractive
     nodejs
     nodePackages.pnpm
+    docker
   ];
 }
