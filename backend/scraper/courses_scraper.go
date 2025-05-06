@@ -1,16 +1,50 @@
-// backend/scraper/colly_scraper.go
 package scraper
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
-	"github.com/gocolly/colly/v2"
+	"os"
 	"path"
 	"sync"
 	"time"
+
+	"github.com/gocolly/colly/v2"
 )
+
+func WriteCourseDataToJSON(courses []*Course, filePath string) error {
+	jsonData, err := json.MarshalIndent(courses, "", "  ")
+	if err != nil {
+		return fmt.Errorf("error marshaling courses to json: %w", err)
+	}
+
+	err = os.WriteFile(filePath, jsonData, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing json to file: %w", err)
+	}
+
+	fmt.Printf("wrote %d courses to %s\n", len(courses), filePath)
+	return nil
+}
+
+func ReadCourseDataFromJSON(filePath string) ([]*Course, error) {
+	jsonData, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("error reading json file: %w", err)
+	}
+
+	var courses []*Course
+	err = json.Unmarshal(jsonData, &courses)
+	if err != nil {
+		return nil, fmt.Errorf("error unmarshaling json data: %w", err)
+	}
+
+	fmt.Printf("read %d courses from %s\n", len(courses), filePath)
+	return courses, nil
+}
 
 const CLASS_DESCRIPTIONS = "https://class-descriptions.northwestern.edu/"
 
@@ -98,9 +132,40 @@ func ScrapeQuarters(urls []string) map[string][]GenericScrapedObj {
 	return ScrapeGeneric(
 		urls,
 		func(name, href, url string) GenericScrapedObj { return GenericScrapedObj{name, href, url} },
-		func(lowerText, href, _ string) bool { return startsWithFourDigitsRegex(lowerText) },
+		func(lowerText, href, url string) bool {
+			return startsWithFourDigitsRegex(lowerText)
+		},
 	)
 }
+
+// For Schools
+func ScrapeSchools(urls []string, whitelistedquarters []string) map[string][]GenericScrapedObj {
+	return ScrapeGeneric(
+		urls,
+		func(name, href, url string) GenericScrapedObj { return GenericScrapedObj{name, href, url} },
+		func(lowerText, href, url string) bool {
+			isWhitelisted := false
+			for _, quarter := range whitelistedquarters {
+				if strings.Contains(url, quarter) {
+					isWhitelisted = true
+					break
+				}
+			}
+
+			if !isWhitelisted {
+				return false
+			}
+
+			return strings.Contains(lowerText, "school") || strings.Contains(lowerText, "college")
+		},
+	)
+}
+
+const (
+	SPRING_2025 = "4980"
+)
+
+var QUARTERS_WHITELIST = []string{SPRING_2025}
 
 const (
 	WCAS = "WCAS"
@@ -109,23 +174,24 @@ const (
 
 var SCHOOLS_WHITELIST = []string{WCAS, MEAS}
 
-// For Schools
-func ScrapeSchools(urls []string) map[string][]GenericScrapedObj {
-	return ScrapeGeneric(
-		urls,
-		func(name, href, url string) GenericScrapedObj { return GenericScrapedObj{name, href, url} },
-		func(lowerText, href, _ string) bool {
-			return strings.Contains(lowerText, "school") || strings.Contains(lowerText, "college")
-		},
-	)
-}
-
 // For Subjects
-func ScrapeSubjects(urls []string) map[string][]GenericScrapedObj {
+func ScrapeSubjects(urls []string, whitelistedschools []string) map[string][]GenericScrapedObj {
 	return ScrapeGeneric(
 		urls,
 		func(name, href, url string) GenericScrapedObj { return GenericScrapedObj{name, href, url} },
 		func(lowerText, href, url string) bool {
+			isWhitelisted := false
+			for _, school := range whitelistedschools {
+				if strings.Contains(url, school) {
+					isWhitelisted = true
+					break
+				}
+			}
+
+			if !isWhitelisted {
+				return false
+			}
+
 			return strings.HasPrefix(href, path.Base(url))
 		},
 	)
@@ -142,21 +208,23 @@ func ScrapeSections(urls []string) map[string][]GenericScrapedObj {
 	)
 }
 
-func ScrapeCourseDescriptionHierarchy() {
-	// TODO: build a full ass tree
-
+func ScrapeCourseDescriptionHierarchy(whitelistedquarters []string, whitelistedschools []string) []*Course {
 	var nexturls []string
 	nexturls = append(nexturls, CLASS_DESCRIPTIONS)
 	quartersByURL := ScrapeQuarters(nexturls)
+	fmt.Printf("scraped quarters\n")
 
-	nexturls = getNextURLSet(quartersByURL, nexturls) // TODO: this has to be a map
-	schoolsByURL := ScrapeSchools(nexturls)
+	nexturls = getNextURLSet(quartersByURL, nexturls)
+	schoolsByURL := ScrapeSchools(nexturls, whitelistedquarters)
+	fmt.Printf("scraped schools\n")
 
 	nexturls = getNextURLSet(schoolsByURL, nexturls)
-	subjectsByURL := ScrapeSubjects(nexturls)
+	subjectsByURL := ScrapeSubjects(nexturls, whitelistedschools)
+	fmt.Printf("scraped subjects\n")
 
 	nexturls = getNextURLSet(subjectsByURL, nexturls)
 	sectionsByURL := ScrapeSections(nexturls)
+	fmt.Printf("scraped sections\n")
 
 	nexturls = getNextURLSet(sectionsByURL, nexturls)
 	coursesByURL := ScrapeNorthwesternCourses(
@@ -166,21 +234,25 @@ func ScrapeCourseDescriptionHierarchy() {
 		subjectsByURL,
 		sectionsByURL,
 	)
+	fmt.Printf("scraped courses\n")
 
+	var courses []*Course
 	for _, course := range coursesByURL {
-		PrintCourse(course)
-		return
+		courses = append(courses, course)
 	}
+	return courses
 }
 
 func getNextURLSet[T ScrapedObj](itemsByURL map[string][]T, urls []string) []string {
+	var res []string
 	for _, url := range urls {
 		nexturls := getUrls(itemsByURL[url])
 		var lhs []string
 		lhs = append(lhs, url)
-		return strCartesian(lhs, nexturls)
+
+		res = append(res, strCartesian(lhs, nexturls)...)
 	}
-	return make([]string, 0)
+	return res
 }
 
 func getUrls[T ScrapedObj](objs []T) []string {
@@ -243,35 +315,33 @@ func startsWithNumberColon(s string) bool {
 }
 
 type Instructor struct {
-	Name        string
-	Phone       string
-	Email       string
-	OfficeHours string
-	Address     string
+	Name        string `json:"name"`
+	Phone       string `json:"phone"`
+	Email       string `json:"email"`
+	OfficeHours string `json:"officehours"`
+	Address     string `json:"address"`
 }
 
 type MeetingTime struct {
-	Location  string
-	Days      []string
-	StartTime time.Time
-	EndTime   time.Time
-	TimeRange string
+	Location  string    `json:"location"`
+	Days      []string  `json:"days"`
+	StartTime time.Time `json:"starttime"`
+	EndTime   time.Time `json:"endtime"`
+	TimeRange string    `json:"timerange"`
 }
 
 type Course struct {
-	Title  string
-	Number string
-
-	Topic        string
-	Instructors  []Instructor
-	MeetingTimes []MeetingTime
-	Overview     string
-	URL          string
-
-	Section string
-	Subject string
-	School  string
-	Quarter string
+	Title        string        `json:"title"`
+	Number       string        `json:"number"`
+	Topic        string        `json:"topic"`
+	Instructors  []Instructor  `json:"instructors"`
+	MeetingTimes []MeetingTime `json:"meetingTimes"`
+	Overview     string        `json:"overview"`
+	URL          string        `json:"url"`
+	Section      int           `json:"section"`
+	Subject      string        `json:"subject"`
+	School       string        `json:"school"`
+	Quarter      int           `json:"quarter"`
 }
 
 // standard days
@@ -556,10 +626,22 @@ func ScrapeNorthwesternCourses(
 		schoolID := GetLastURLPart(schoolURL)
 		quarterID := GetLastURLPart(quarterURL)
 
-		course.Section = sectionID
+		{
+			i, err := strconv.Atoi(sectionID)
+			if err == nil {
+				course.Section = i
+			}
+		}
+
 		course.Subject = subjectID
 		course.School = schoolID
-		course.Quarter = quarterID
+
+		{
+			i, err := strconv.Atoi(quarterID)
+			if err == nil {
+				course.Quarter = i
+			}
+		}
 	})
 
 	// topic
@@ -680,13 +762,22 @@ func PopLastURLPart(url string) string {
 	return url[:lastSlashIndex]
 }
 
+func GetLastURLPart(url string) string {
+	lastSlashIndex := strings.LastIndex(url, "/")
+	if lastSlashIndex == -1 || lastSlashIndex == len(url)-1 {
+		return ""
+	}
+
+	return url[lastSlashIndex+1:]
+}
+
 // pretty print course information
 func PrintCourse(course *Course) {
 	fmt.Printf("Course: %s (%s)\n", course.Title, course.Number)
-	fmt.Printf("Section: %s\n", course.Section)
+	fmt.Printf("Section: %d\n", course.Section)
 	fmt.Printf("Subject: %s\n", course.Subject)
 	fmt.Printf("School: %s\n", course.School)
-	fmt.Printf("Quarter: %s\n", course.Quarter)
+	fmt.Printf("Quarter: %d\n", course.Quarter)
 	fmt.Printf("Topic: %s\n", course.Topic)
 
 	fmt.Println("\nInstructors:")
@@ -707,13 +798,4 @@ func PrintCourse(course *Course) {
 
 	fmt.Println("\nOverview:")
 	fmt.Println(course.Overview)
-}
-
-func GetLastURLPart(url string) string {
-	lastSlashIndex := strings.LastIndex(url, "/")
-	if lastSlashIndex == -1 || lastSlashIndex == len(url)-1 {
-		return ""
-	}
-
-	return url[lastSlashIndex+1:]
 }

@@ -1,9 +1,10 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"log"
-	// "net/http"
+	"net/http"
+
 	// "os"
 	"time"
 
@@ -12,9 +13,11 @@ import (
 	// "github.com/nynniaw12/ieee-planner/db"
 
 	// "github.com/joho/godotenv" // package for loading .env
-	"github.com/nynniaw12/ieee-planner/scraper"
+	// "github.com/nynniaw12/ieee-planner/scraper"
 
 	_ "github.com/lib/pq"
+	"github.com/nynniaw12/ieee-planner/middleware"
+	"github.com/nynniaw12/ieee-planner/scraper"
 )
 
 func StartDaemon(timeout time.Duration, f func() error) {
@@ -31,7 +34,7 @@ func StartDaemon(timeout time.Duration, f func() error) {
 }
 
 func main() {
-    scraper.ScrapeCourseDescriptionHierarchy()
+
 	// err := godotenv.Load()
 
 	// if err != nil {
@@ -54,34 +57,14 @@ func main() {
 	// }
 	// fmt.Printf("Working directory: %s\n", wd)
 
-	// StartDaemon(time.Duration(cache.Default_TTL()/4)*time.Second, func() error { // timeout on ttl/4
-	// 	if cache.IsCacheValid(database, "courses") {
-	// 		log.Println("Starting full scrape of courses (may take a couple minutes)…")
-	// 		scraper.ScrapeCourses("4980")
-	// 		// scraper.CachedCourses, scraper.ScrapeError = scraper.ScrapeCourses("4980")
-	// 		// if scraper.ScrapeError != nil {
-	// 		// 	log.Fatalf("Initial scrape failed: %v", scraper.ScrapeError)
-	// 		// }
-	// 		// log.Printf("Scrape complete: %d courses loaded\n", len(scraper.CachedCourses))
-
-	// 		cache.UpdateCacheTimestamp(database, "courses")
-	// 	}
-
-	// 	return nil
-	// })
-
-	// // TODO: course requirement scraper, fix table name
-	// // if not mock it w front end
-	// StartDaemon(time.Duration(cache.Default_TTL()/4)*time.Second, func() error { // timeout on ttl/4
-	// 	if !cache.IsCacheValid(database, "MajorRequirements") {
-	// 		// For when scraping major requirements is done
-	// 	}
-
-	// 	return nil
-	// })
-
-	// // New feature in go 1.22, it actually handles restful APIs without needing to install dependencies
-	// mux := http.NewServeMux()
+	// New feature in go 1.22, it actually handles restful APIs without needing to install dependencies
+	store, err := scraper.NewCoursesStore("./scraper-out/")
+	if err != nil {
+		log.Fatalf("Error  creating courses store: %v", err)
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(store))
+	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(store))
 
 	// // testing handlers
 	// // http.HandleFunc("GET /api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler
@@ -96,6 +79,6 @@ func main() {
 	// mux.HandleFunc("GET /api/courses/{id}", handlers.GetCourseHandler(database))
 	// mux.HandleFunc("GET /api/courses", handlers.GetCoursesHandler(database))
 
-	// fmt.Println("Server starting on :8080...")
-	// log.Fatal(http.ListenAndServe(":8080", mux)) // error will stop program
+	fmt.Println("Server starting on :8080...")
+	log.Fatal(http.ListenAndServe(":8080", middleware.CorsMiddleware(mux))) // error will stop program
 }

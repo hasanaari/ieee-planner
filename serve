@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+pids=()
+
+
+cleanup() {
+    echo "shutting down..."
+    for pid in "${pids[@]}"; do
+        if ps -p $pid > /dev/null; then
+            kill $pid
+        fi
+    done
+    exit 0
+}
+
+trap cleanup SIGINT SIGTERM EXIT
+
+echo "starting frontend..."
+pnpm dev &
+pids+=($!)
+
+echo "starting backend..."
+(cd backend && go run main.go) &
+pids+=($!)
+
+echo "serving... Press Ctrl+C to exit"
+
+wait
