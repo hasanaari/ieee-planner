@@ -1,0 +1,565 @@
+{
+  "isEngineering": true,
+  "major": "Computer Science",
+  "allreqs": [
+    {
+      "name": "Mathematics",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 220-1"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 220-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 228-1"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 212-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Engineering Analysis and Computer Proficiency",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "GEN_ENG 205-1",
+                "GEN_ENG 205-2",
+                "GEN_ENG 205-3"
+              ]
+            },
+            {
+              "courses": [
+                "GEN_ENG 206-1",
+                "GEN_ENG 206-2",
+                "GEN_ENG 206-3"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 111-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Major: Required Courses",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 150-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 211-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 213-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 214-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 262-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "IEMS 201-0"
+              ]
+            },
+            {
+              "courses": [
+                "IEMS 303-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 302-0"
+              ]
+            },
+            {
+              "courses": [
+                "STAT 210-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "numRequirements": 5,
+      "type": 1
+    },
+    {
+      "name": "Advanced Electives",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COG_SCI 207-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 203-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 205-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 260-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 296-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 298-0"
+              ]
+            },
+            {
+              "courses": [
+                "MECH_ENG 233-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Project Courses",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 311-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 312-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 315-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 322-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 329-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 330-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 331-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 337-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 338-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 339-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 340-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 343-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 344-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 345-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 346-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 351-1"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 351-2"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 354-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 355-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 367-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 370-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 371-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 372-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 377-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 392-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 393-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 394-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 397-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 412-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 415-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 433-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 441-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 445-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 446-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 450-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 461-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_SCI 497-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 346-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 366-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 466-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 332-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Technical Electives",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 303-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 329-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 334-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 346-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 355-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 356-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 357-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 358-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 361-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 362-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 364-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 365-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 366-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 368-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 452-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 453-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 456-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 459-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 464-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 465-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 466-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 468-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 326-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 332-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 375-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 433-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 435-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    }
+  ]
+}

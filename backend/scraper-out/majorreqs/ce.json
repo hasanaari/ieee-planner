@@ -1,0 +1,240 @@
+{
+  "isEngineering": true,
+  "major": "Computer Engineering",
+  "allreqs": [
+    {
+      "name": "Basic Science",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "PHYSICS 135-2",
+                "PHYSICS 135-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 125-2",
+                "PHYSICS 125-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 140-3"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "PHYSICS 136-2",
+                "PHYSICS 136-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 126-2",
+                "PHYSICS 126-3"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Major Program",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 203-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 205-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 303-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 361-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 111-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 211-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "ELEC_ENG 202-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "ELEC_ENG 221-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "ELEC_ENG 302-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Technical Elective Options",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_SCI 213-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 222-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 223-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 224-0"
+              ]
+            },
+            {
+              "courses": [
+                "ELEC_ENG 225-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Elective Options",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "BIOL_SCI 201-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "BIOL_SCI 202-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "BIOL_SCI 203-0"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "CHEM 215-1",
+                "CHEM 215-2",
+                "CHEM 215-3"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    },
+    {
+      "name": "Design Course Options",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "COMP_ENG 347-1"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 362-0"
+              ]
+            },
+            {
+              "courses": [
+                "COMP_ENG 392-0"
+              ]
+            }
+          ]
+        }
+      ],
+      "type": 0
+    }
+  ]
+}

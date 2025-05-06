@@ -12,10 +12,10 @@ import (
 	// "github.com/nynniaw12/ieee-planner/cache"
 	// "github.com/nynniaw12/ieee-planner/db"
 
-	// "github.com/joho/godotenv" // package for loading .env
+	"github.com/joho/godotenv" // package for loading .env
 	// "github.com/nynniaw12/ieee-planner/scraper"
 
-	_ "github.com/lib/pq"
+	// _ "github.com/lib/pq"
 	"github.com/nynniaw12/ieee-planner/middleware"
 	"github.com/nynniaw12/ieee-planner/scraper"
 )
@@ -34,12 +34,11 @@ func StartDaemon(timeout time.Duration, f func() error) {
 }
 
 func main() {
+	err := godotenv.Load()
 
-	// err := godotenv.Load()
-
-	// if err != nil {
-	// 	log.Println("Error loading .env file", err)
-	// }
+	if err != nil {
+		log.Fatalf("Error loading .env file", err)
+	}
 
 	// database := db.ConnectToDB()
 	// defer database.Close()
@@ -58,13 +57,20 @@ func main() {
 	// fmt.Printf("Working directory: %s\n", wd)
 
 	// New feature in go 1.22, it actually handles restful APIs without needing to install dependencies
-	store, err := scraper.NewCoursesStore("./scraper-out/")
+	courses_store, err := scraper.NewCoursesStore("./scraper-out/courses/")
 	if err != nil {
 		log.Fatalf("Error  creating courses store: %v", err)
 	}
+	majorreqs_store, err := scraper.NewMajorRequirementsStore("./scraper-out/majorreqs/")
+	if err != nil {
+		log.Fatalf("Error  creating majorreqs store store: %v", err)
+	}
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(store))
-	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(store))
+	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(courses_store))
+	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(courses_store))
+
+	mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
+	mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
 
 	// // testing handlers
 	// // http.HandleFunc("GET /api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler

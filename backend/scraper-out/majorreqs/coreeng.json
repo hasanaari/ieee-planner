@@ -1,0 +1,390 @@
+{
+  "isEngineering": true,
+  "major": "Core Engineering",
+  "allreqs": [
+    {
+      "requirementType": 0,
+      "name": "Mathematics",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 220-1"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 220-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 228-1"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "MATH 228-2"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementType": 0,
+      "name": "Engineering Analysis and Computer Proficiency",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "GEN_ENG 205-1"
+              ]
+            },
+            {
+              "courses": [
+                "GEN_ENG 206-1"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "GEN_ENG 205-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "GEN_ENG 205-3"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "GEN_ENG 205-4"
+              ]
+            },
+            {
+              "courses": [
+                "GEN_ENG 206-4"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementType": 0,
+      "name": "Basic Sciences",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "BIOL_SCI 202-0",
+                "BIOL_SCI 232-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 131-0",
+                "CHEM 141-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 151-0",
+                "CHEM 161-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 171-0",
+                "CHEM 181-0"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 135-2",
+                "PHYSICS 136-2"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 125-2",
+                "PHYSICS 126-2"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 140-2",
+                "PHYSICS 136-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "BIOL_SCI 202-0",
+                "BIOL_SCI 232-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 131-0",
+                "CHEM 141-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 151-0",
+                "CHEM 161-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 171-0",
+                "CHEM 181-0"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 135-2",
+                "PHYSICS 136-2"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 125-2",
+                "PHYSICS 126-2"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 140-2",
+                "PHYSICS 136-2"
+              ]
+            },
+            {
+              "courses": [
+                "BIOL_SCI 150-0"
+              ]
+            },
+            {
+              "courses": [
+                "BIOL_SCI 201-0"
+              ]
+            },
+            {
+              "courses": [
+                "BIOL_SCI 203-0",
+                "BIOL_SCI 233-0"
+              ]
+            },
+            {
+              "courses": [
+                "BIOL_SCI 234-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM_ENG 275-0"
+              ]
+            },
+            {
+              "courses": [
+                "CIV_ENV 202-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 132-0",
+                "CHEM 142-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 152-0",
+                "CHEM 162-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 172-0",
+                "CHEM 182-0"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 215-1",
+                "CHEM 235-1"
+              ]
+            },
+            {
+              "courses": [
+                "CHEM 215-2",
+                "CHEM 235-2"
+              ]
+            },
+            {
+              "courses": [
+                "ASTRON 220-1"
+              ]
+            },
+            {
+              "courses": [
+                "ASTRON 220-2"
+              ]
+            },
+            {
+              "courses": [
+                "CIV_ENV 203-0"
+              ]
+            },
+            {
+              "courses": [
+                "EARTH 201-0"
+              ]
+            },
+            {
+              "courses": [
+                "EARTH 202-0"
+              ]
+            },
+            {
+              "courses": [
+                "EARTH 203-0"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 135-3",
+                "PHYSICS 136-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 125-3",
+                "PHYSICS 126-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 140-3",
+                "PHYSICS 136-3"
+              ]
+            },
+            {
+              "courses": [
+                "PHYSICS 239-0"
+              ]
+            },
+            {
+              "courses": [
+                "COG_SCI 210-0"
+              ]
+            },
+            {
+              "courses": [
+                "CSD 202-0"
+              ]
+            },
+            {
+              "courses": [
+                "CSD 303-0"
+              ]
+            },
+            {
+              "courses": [
+                "PSYCH 221-0"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementType": 0,
+      "name": "Design and Communication",
+      "requirements": [
+        {
+          "between": [
+            {
+              "courses": [
+                "DSGN 106-1",
+                "DSGN 106-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "ENGLISH 106-1",
+                "ENGLISH 106-2"
+              ]
+            }
+          ]
+        },
+        {
+          "between": [
+            {
+              "courses": [
+                "COMM_ST 102-0"
+              ]
+            },
+            {
+              "courses": [
+                "PERF_ST 103-0"
+              ]
+            },
+            {
+              "courses": [
+                "PERF_ST 203-0"
+              ]
+            },
+            {
+              "courses": [
+                "BMD_ENG 390-2"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementType": 1,
+      "numreqs": 7
+    },
+    {
+      "requirementType": 2,
+      "numreqs": 5
+    }
+  ]
+}
