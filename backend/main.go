@@ -33,6 +33,9 @@ func StartDaemon(timeout time.Duration, f func() error) {
 	}()
 }
 
+// TODO: stores are better off in the database but this is fine for the demo
+// TODO: currently scrapers are just cli tools actually run them in daemons and have proper caching mechanisms
+// TODO: big todo is to have a way better major requirements scraper which is very very hard
 func main() {
 	err := godotenv.Load()
 
@@ -44,7 +47,6 @@ func main() {
 	// defer database.Close()
 
 	// err = db.CreateCoursesTable(database)
-	// // TODO: as we integrate other tables add calls to them from a function called db.CreateTables
 
 	// if err != nil {
 	// 	log.Fatal("Creating course table failed", err)

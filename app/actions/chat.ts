@@ -116,6 +116,7 @@ async function fulfillFunctionCalls(response: OpenAI.Chat.Completions.ChatComple
     return true;
 }
 
+// TODO: probably more capabilities as tools and one thing to make sure this guy doesnt mess up tool calls is to provide all subjects
 export async function askChat(selectedCourses: string[], selectedMajor: string, allquarters: number[], userprompt: string): Promise<string> {
     const context: OpenAI.Chat.ChatCompletionMessageParam[] = [
         {

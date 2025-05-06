@@ -8,6 +8,7 @@ const MOCK_USERS = [
   { email: "test@example.com", password: "test123" },
 ]
 
+// TODO: this and probably more generally db/ cloud auth integration
 export async function loginUser(formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
