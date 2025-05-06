@@ -15,6 +15,8 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM EXIT
 
+pnpm install
+
 echo "starting frontend..."
 pnpm dev &
 pids+=($!)

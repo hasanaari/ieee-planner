@@ -69,6 +69,9 @@ func main() {
 	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(courses_store))
 	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(courses_store))
 
+	mux.HandleFunc("GET /api/courses/subject", scraper.GetCoursesBySubjectHandler(courses_store))
+	mux.HandleFunc("GET /api/courses/key", scraper.GetCoursesByKeyHandler(courses_store))
+
 	mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
 	mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
 

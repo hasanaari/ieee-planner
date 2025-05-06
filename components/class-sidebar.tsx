@@ -54,6 +54,7 @@ type ClassSidebarProps = {
     onQuarterChange: (quarter: number) => void
 }
 
+// TODO: search can be improved to also take into account Subject
 export function ClassSidebar({
     selectedCourses,
     onCourseToggle,
