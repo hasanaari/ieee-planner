@@ -9,7 +9,7 @@ import (
 )
 
 // Writes course data -> courses table, instructor data -> instructors table, meetingtimes -> meetingtimes table
-func writeCourseDataToDatabase (db *sql.DB, course scraper.Course) error {
+func WriteCourseDataToDatabase (db *sql.DB, course scraper.Course) error {
 	tx, err := db.Begin()
 
 	if err != nil {

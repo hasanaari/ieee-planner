@@ -7,7 +7,7 @@ import (
 )
 
 // Creates courses table if it doesn't exist
-func createCoursesTableIfNotExists (db *sql.DB) error {
+func CreateCoursesTableIfNotExists (db *sql.DB) error {
 	query := `CREATE TABLE IF NOT EXISTS courses (
 	id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
@@ -31,7 +31,7 @@ func createCoursesTableIfNotExists (db *sql.DB) error {
 }
 
 // Creates instructors table if it doesn't exist
-func createInstructorsTableIfNotExists (db *sql.DB) error {
+func CreateInstructorsTableIfNotExists (db *sql.DB) error {
 	query := `CREATE TABLE IF NOT EXISTS Instructors (
     id SERIAL PRIMARY KEY, 
     course_id INTEGER NOT NULL REFERENCES Courses(id) ON DELETE CASCADE,
@@ -52,7 +52,7 @@ func createInstructorsTableIfNotExists (db *sql.DB) error {
 }
 
 // Creates meetingtimes table if it doesn't exist
-func createMeetingTimesTableIfNotExists (db *sql.DB) error {
+func CreateMeetingTimesTableIfNotExists (db *sql.DB) error {
 	query := `CREATE TABLE IF NOT EXISTS MeetingTimes (
     id SERIAL PRIMARY KEY,
     course_id INTEGER NOT NULL REFERENCES Courses(id) ON DELETE CASCADE,
@@ -74,19 +74,19 @@ func createMeetingTimesTableIfNotExists (db *sql.DB) error {
 
 // Creates all necessary database tables for MVP
 func InitializeTables (db *sql.DB) error {
-	err := createCoursesTableIfNotExists(db)
+	err := CreateCoursesTableIfNotExists(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = createInstructorsTableIfNotExists(db)
+	err = CreateInstructorsTableIfNotExists(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = createMeetingTimesTableIfNotExists(db)
+	err = CreateMeetingTimesTableIfNotExists(db)
 
 	if err != nil {
 		return err
