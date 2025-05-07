@@ -213,6 +213,7 @@ func ReadMajorreqsFromJSONString(jsonString string) (*MajorRequirements, error) 
 var majorURLs = map[string]string{
 	"Computer Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/electrical-computer-engineering/computer-engineering-degree/",
 	"Computer Science":     "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/computer-science/computer-science-degree/",
+    "Electrical Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/electrical-computer-engineering/electrical-engineering-degree/",
 }
 
 func GetMajorreqs(major string) (MajorRequirements, error) {
@@ -247,8 +248,8 @@ The JSON structure should represent three types of requirements:
 
 3. Each requirement in "allreqs:" must have a "type" field:
    - 0 for GenericRequirements (needs "name" and "requirements" fields)
-   - 1 for ThemeRequirements (needs only "numRequirements" field)
-   - 2 for UnrestrictedRequirements (needs only "numRequirements" field)
+   - 1 for ThemeRequirements (needs only "numreqs" field)
+   - 2 for UnrestrictedRequirements (needs only "numreqs" field)
 
 4. For type 0 (GenericRequirements):
    - Each item in "requirements" is an Option with a "between" field
@@ -262,7 +263,7 @@ The JSON structure should represent three types of requirements:
    - For "one of above or below" requirements, include all options in the same "between" array
 
 6. For Theme and Unrestricted requirements:
-   - Simply include the number of required courses in "numRequirements"
+   - Simply include the number of required courses in "numreqs"
 
 7. Be thorough try to place every course you see in a requirements block! Do not mark anything unknown easily!
 
@@ -332,11 +333,11 @@ The JSON structure should represent three types of requirements:
     // More requirements...
     {
       "type": 1,
-      "numRequirements": 7
+      "numreqs": 7
     },
     {
       "type": 2,
-      "numRequirements": 5
+      "numreqs": 5
     }
   ]
 }

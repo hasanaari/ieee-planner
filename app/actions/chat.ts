@@ -33,6 +33,8 @@ async function getMajorRequirements(major: string) {
         return null;
     }
 }
+
+// TODO: instead of getcoursesbyquarter getcoursesbyquarterandsubject
 // Get courses by quarter -> returns all courses by quarter id
 async function getCoursesByQuarter(quarter: number) {
     try {
