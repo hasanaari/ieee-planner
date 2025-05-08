@@ -8,16 +8,15 @@ import (
 	// "os"
 	"time"
 
-	// "github.com/nynniaw12/ieee-planner/api/handlers"
 	// "github.com/nynniaw12/ieee-planner/cache"
-	// "github.com/nynniaw12/ieee-planner/db"
-
 	"github.com/joho/godotenv" // package for loading .env
+	"github.com/nynniaw12/ieee-planner/api/handlers"
+	"github.com/nynniaw12/ieee-planner/db"
+
 	// "github.com/nynniaw12/ieee-planner/scraper"
 
 	// _ "github.com/lib/pq"
 	"github.com/nynniaw12/ieee-planner/middleware"
-	"github.com/nynniaw12/ieee-planner/scraper"
 )
 
 func StartDaemon(timeout time.Duration, f func() error) {
@@ -43,8 +42,8 @@ func main() {
 		log.Fatalf("Error loading .env file", err)
 	}
 
-	// database := db.ConnectToDB()
-	// defer database.Close()
+	database := db.ConnectToDB()
+	defer database.Close()
 
 	// err = db.CreateCoursesTable(database)
 
@@ -59,23 +58,29 @@ func main() {
 	// fmt.Printf("Working directory: %s\n", wd)
 
 	// New feature in go 1.22, it actually handles restful APIs without needing to install dependencies
-	courses_store, err := scraper.NewCoursesStore("./scraper-out/courses/")
-	if err != nil {
-		log.Fatalf("Error  creating courses store: %v", err)
-	}
-	majorreqs_store, err := scraper.NewMajorRequirementsStore("./scraper-out/majorreqs/")
-	if err != nil {
-		log.Fatalf("Error  creating majorreqs store store: %v", err)
-	}
+	// courses_store, err := scraper.NewCoursesStore("./scraper-out/courses/")
+	// if err != nil {
+	// 	log.Fatalf("Error  creating courses store: %v", err)
+	// }
+	// majorreqs_store, err := scraper.NewMajorRequirementsStore("./scraper-out/majorreqs/")
+	// if err != nil {
+	// 	log.Fatalf("Error  creating majorreqs store store: %v", err)
+	// }
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(courses_store))
-	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(courses_store))
+	// mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(courses_store))
+	// mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(courses_store))
 
-	mux.HandleFunc("GET /api/courses/subject", scraper.GetCoursesBySubjectHandler(courses_store))
-	mux.HandleFunc("GET /api/courses/key", scraper.GetCoursesByKeyHandler(courses_store))
+	// mux.HandleFunc("GET /api/courses/subject", scraper.GetCoursesBySubjectHandler(courses_store))
+	// mux.HandleFunc("GET /api/courses/key", scraper.GetCoursesByKeyHandler(courses_store))
 
-	mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
-	mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
+	// mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
+	// mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
+    mux.HandleFunc("GET /api/quarters", handlers.GetAvailableQuartersHandler(database))
+    mux.HandleFunc("GET /api/courses", handlers.GetCoursesByQuarterHandler(database))
+    mux.HandleFunc("GET /api/courses/subject", handlers.GetCoursesBySubjectHandler(database))
+    mux.HandleFunc("GET /api/courses/key", handlers.GetCoursesByKeyHandler(database))
+    mux.HandleFunc("GET /api/majors", handlers.GetAvailableMajorsHandler(database))
+    mux.HandleFunc("GET /api/reqs", handlers.GetMajorRequirementsHandler(database))
 
 	// // testing handlers
 	// // http.HandleFunc("GET /api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler

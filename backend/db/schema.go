@@ -6,6 +6,28 @@ import (
 	"fmt"
 )
 
+// CreateMajorReqsTable creates the table for storing major requirements
+func CreateMajorReqsTableIfNotExists(db *sql.DB) error {
+	query := `
+	CREATE TABLE IF NOT EXISTS major_requirements (
+		id SERIAL PRIMARY KEY,
+		major TEXT UNIQUE NOT NULL,
+		is_engineering BOOLEAN NOT NULL,
+		requirements JSONB NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);`
+
+	_, err := db.Exec(query)
+	if err != nil {
+		return fmt.Errorf("error creating major requirements table: %w", err)
+	}
+	
+	fmt.Println("Major requirements table created or already exists")
+	return nil
+}
+
+
 // Creates courses table if it doesn't exist
 func CreateCoursesTableIfNotExists (db *sql.DB) error {
 	query := `CREATE TABLE IF NOT EXISTS courses (
@@ -87,6 +109,12 @@ func InitializeTables (db *sql.DB) error {
 	}
 
 	err = CreateMeetingTimesTableIfNotExists(db)
+
+	if err != nil {
+		return err
+	}
+
+	err = CreateMajorReqsTableIfNotExists(db)
 
 	if err != nil {
 		return err

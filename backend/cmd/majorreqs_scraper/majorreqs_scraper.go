@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/nynniaw12/ieee-planner/db"
 	"github.com/nynniaw12/ieee-planner/scraper"
 )
 
@@ -14,22 +15,43 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Fatalf("Error loading .env file", err)
+		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	major := flag.String("major", "", "Comma-separated list of quarters to whitelist")
-	outputPtr := flag.String("out", "courses.json", "Output JSON file path")
+	// Parse command line flags
+	major := flag.String("major", "", "Major to retrieve requirements for")
 	flag.Parse()
 
-	mr, err := scraper.GetMajorreqs(*major)
-	if err != nil {
-		fmt.Printf("%v\n", err)
+	if *major == "" {
+		fmt.Println("Error: Major parameter is required")
+		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
-	err = scraper.WriteMajorreqsToJSON(mr, *outputPtr)
+	// Connect to the database
+	database := db.ConnectToDB()
+	defer database.Close()
+
+	// Create the major requirements table if it doesn't exist
+	err = db.CreateMajorReqsTableIfNotExists(database)
 	if err != nil {
-		fmt.Printf("error writing major to JSON: %v\n", err)
+		fmt.Printf("Error creating major requirements table: %v\n", err)
 		os.Exit(1)
 	}
+
+	// Get major requirements from scraper
+	mr, err := scraper.GetMajorreqs(*major)
+	if err != nil {
+		fmt.Printf("Error getting major requirements: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Write the major requirements to the database
+	err = db.WriteMajorReqsToDatabase(database, &mr)
+	if err != nil {
+		fmt.Printf("Error writing major requirements to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Successfully wrote %s major requirements to database\n", *major)
 }

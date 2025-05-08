@@ -6,11 +6,12 @@ import (
 	"net/http"
 
 	"context"
-	"github.com/PuerkitoBio/goquery"
-	openai "github.com/sashabaranov/go-openai"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/PuerkitoBio/goquery"
+	openai "github.com/sashabaranov/go-openai"
 )
 
 type Requirements interface {
@@ -214,6 +215,10 @@ var majorURLs = map[string]string{
 	"Computer Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/electrical-computer-engineering/computer-engineering-degree/",
 	"Computer Science":     "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/computer-science/computer-science-degree/",
     "Electrical Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/electrical-computer-engineering/electrical-engineering-degree/",
+	"Theatre": "https://catalogs.northwestern.edu/undergraduate/communication/theatre/theatre-major/",
+	"Economics": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/economics/economics-major/",
+	"Psychology": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/psychology/psychology-major/",
+	"Philosophy": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/philosophy/philosophy-major/",
 }
 
 func GetMajorreqs(major string) (MajorRequirements, error) {
