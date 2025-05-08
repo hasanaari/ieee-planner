@@ -219,6 +219,11 @@ var majorURLs = map[string]string{
 	"Economics": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/economics/economics-major/",
 	"Psychology": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/psychology/psychology-major/",
 	"Philosophy": "https://catalogs.northwestern.edu/undergraduate/arts-sciences/philosophy/philosophy-major/",
+	"Industrial Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/industrial-engineering-management-sciences/industrial-engineering-degree/",
+	"Biomedical Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/biomedical-engineering/biomedical-engineering-degree/",
+	"Environmental Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/civil-environmental-engineering/environmental-engineering-degree/",
+	"Mechanical Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/mechanical-engineering/mechanical-engineering-degree/",
+	"Manufacturing and Design Engineering": "https://catalogs.northwestern.edu/undergraduate/engineering-applied-science/segal-design-institute/manufacturing-design-engineering-degree/",
 }
 
 func GetMajorreqs(major string) (MajorRequirements, error) {
