@@ -10,8 +10,8 @@ import (
 
 	// "github.com/nynniaw12/ieee-planner/cache"
 	"github.com/joho/godotenv" // package for loading .env
-	"github.com/nynniaw12/ieee-planner/api/handlers"
-	"github.com/nynniaw12/ieee-planner/db"
+	// "github.com/nynniaw12/ieee-planner/api/handlers" // Not needed for demo mode (using cached files)
+	// "github.com/nynniaw12/ieee-planner/db" // Not needed for demo mode (using cached files)
 
 	"github.com/nynniaw12/ieee-planner/scraper"
 
@@ -36,53 +36,36 @@ func StartDaemon(timeout time.Duration, f func() error) {
 // TODO: currently scrapers are just cli tools actually run them in daemons and have proper caching mechanisms
 // TODO: big todo is to have a way better major requirements scraper which is very very hard
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatalf("Error loading .env file", err)
-	}
-
-	database := db.ConnectToDB()
-	defer database.Close()
-
-	// err = db.CreateCoursesTable(database)
-
-	// if err != nil {
-	// 	log.Fatal("Creating course table failed", err)
-	// }
-
-	// wd, err := os.Getwd()
-	// if err != nil {
-	// 	log.Fatalf("Error getting working directory: %v", err)
-	// }
-	// fmt.Printf("Working directory: %s\n", wd)
+	// Try to load .env file, but don't fail if it doesn't exist (for demo mode)
+	_ = godotenv.Load()
 
 	// New feature in go 1.22, it actually handles restful APIs without needing to install dependencies
 	courses_store, err := scraper.NewCoursesStore("./scraper-out/courses/")
 	if err != nil {
-		log.Fatalf("Error  creating courses store: %v", err)
-
+		log.Fatalf("Error creating courses store: %v", err)
 	}
-	// majorreqs_store, err := scraper.NewMajorRequirementsStore("./scraper-out/majorreqs/")
-	// if err != nil {
-	// 	log.Fatalf("Error  creating majorreqs store store: %v", err)
-	// }
+
+	// Use cached major requirements files for demo (no database needed)
+	majorreqs_store, err := scraper.NewMajorRequirementsStore("./scraper-out/majorreqs/")
+	if err != nil {
+		log.Fatalf("Error creating majorreqs store: %v", err)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/quarters", scraper.GetAvailableQuartersHandler(courses_store))
 	mux.HandleFunc("GET /api/courses", scraper.GetCoursesByQuarterHandler(courses_store))
 	mux.HandleFunc("GET /api/courses/subject", scraper.GetCoursesBySubjectHandler(courses_store))
 	mux.HandleFunc("GET /api/courses/key", scraper.GetCoursesByKeyHandler(courses_store))
 
-	// mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
-	// mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
+	// Use cached files for majors/reqs (demo mode - no database needed)
+	mux.HandleFunc("GET /api/majors", scraper.GetAvailableMajorsHandler(majorreqs_store))
+	mux.HandleFunc("GET /api/reqs", scraper.GetMajorRequirementsHandler(majorreqs_store))
 
-    // mux.HandleFunc("GET /api/quarters", handlers.GetAvailableQuartersHandler(database))
-    // mux.HandleFunc("GET /api/courses", handlers.GetCoursesByQuarterHandler(database))
-    // mux.HandleFunc("GET /api/courses/subject", handlers.GetCoursesBySubjectHandler(database))
-    // mux.HandleFunc("GET /api/courses/key", handlers.GetCoursesByKeyHandler(database))
-
-    mux.HandleFunc("GET /api/majors", handlers.GetAvailableMajorsHandler(database))
-    mux.HandleFunc("GET /api/reqs", handlers.GetMajorRequirementsHandler(database))
+	// Database-based handlers (commented out for demo mode)
+	// database := db.ConnectToDB()
+	// defer database.Close()
+	// mux.HandleFunc("GET /api/majors", handlers.GetAvailableMajorsHandler(database))
+	// mux.HandleFunc("GET /api/reqs", handlers.GetMajorRequirementsHandler(database))
 
 	// // testing handlers
 	// // http.HandleFunc("GET /api/courses", handlers.CoursesHandler) // request to /courses, call CoursesHandler

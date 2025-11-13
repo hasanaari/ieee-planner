@@ -280,10 +280,10 @@ function formatCourseResponse(response: string): string {
 // }
 
 // Initialize OpenAI client
-const openAI = new OpenAI({
+const openAI = OPENAI_API_KEY ? new OpenAI({
   apiKey: OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
-});
+}) : null;
 
 /**
  * Main chat function with token optimization
@@ -294,6 +294,11 @@ export async function askChat(
   allquarters: number[],
   userprompt: string
 ): Promise<string> {
+  // Check if API key is missing
+  if (!OPENAI_API_KEY || !openAI) {
+    return "The chat assistant requires an OpenAI API key to function. For this demo, you can explore the Weekly Schedule and Major Requirements tabs which work without an API key. To enable the chat feature, please add your OpenAI API key to the NEXT_PUBLIC_OPENAI_API_KEY environment variable.";
+  }
+
   // Initial context with enhanced system prompt
   const initialContext: OpenAI.Chat.ChatCompletionMessageParam[] = [
     {
